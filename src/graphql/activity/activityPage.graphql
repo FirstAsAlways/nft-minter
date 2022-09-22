@@ -1,0 +1,31 @@
+query activityPage($address: PublicKey!, $limit: Int!, $offset: Int!) {
+  wallet(address: $address) {
+    __typename
+    address
+    activities(limit: $limit, offset: $offset) {
+      id
+      price
+      createdAt
+      wallets {
+        address
+        twitterHandle
+      }
+      activityType
+      nft {
+        __typename
+        address
+        name
+        description
+        image
+        creators {
+          address
+          twitterHandle
+        }
+      }
+      auctionHouse {
+        address
+        treasuryMint
+      }
+    }
+  }
+}

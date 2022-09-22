@@ -1,0 +1,26 @@
+# import "../fragments/MintEventPreview.graphql"
+# import "../fragments/FollowEventPreview.graphql"
+# import "../fragments/PurchaseEventPreview.graphql"
+# import "../fragments/ListingEventPreview.graphql"
+# import "../fragments/OfferEventPreview.graphql"
+
+query feed($address: PublicKey!, $limit: Int = 25, $offset: Int = 0, $excludeTypes: [String!]) {
+  feedEvents(wallet: $address, limit: $limit, offset: $offset, excludeTypes: $excludeTypes) {
+    __typename
+    ... on MintEvent {
+      ...MintEventPreview
+    }
+    ... on FollowEvent {
+      ...FollowEventPreview
+    }
+    ... on PurchaseEvent {
+      ...PurchaseEventPreview
+    }
+    ... on ListingEvent {
+      ...ListingEventPreview
+    }
+    ... on OfferEvent {
+      ...OfferEventPreview
+    }
+  }
+}

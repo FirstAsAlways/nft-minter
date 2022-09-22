@@ -1,0 +1,7 @@
+#import "./profileInfo.graphql"
+
+query getProfileInfoFromTwitterHandle($handle: String!) {
+  profile(handle: $handle) {
+    ...ProfileInfo
+  }
+}

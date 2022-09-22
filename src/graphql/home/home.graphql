@@ -1,0 +1,221 @@
+# import "../fragments/NftCard.graphql"
+# import "../fragments/MarketplaceAuctionHouse.graphql"
+# import "../fragments/MintEventPreview.graphql"
+# import "../fragments/FollowEventPreview.graphql"
+# import "../fragments/PurchaseEventPreview.graphql"
+# import "../fragments/ListingEventPreview.graphql"
+# import "../fragments/OfferEventPreview.graphql"
+# import "../fragments/CollectionPreview.graphql"
+# import "./ProfileInfo.graphql"
+
+fragment ProfilePreview on Wallet {
+  address
+  profile {
+    ...ProfileInfo
+  }
+  nftCounts {
+    owned
+    created
+  }
+}
+
+fragment BuyNowListing on AhListing {
+  id
+  nft {
+    address
+    name
+    sellerFeeBasisPoints
+    mintAddress
+    description
+    image
+    primarySaleHappened
+    creators {
+      address
+      share
+      verified
+    }
+    owner {
+      address
+      associatedTokenAccountAddress
+    }
+    purchases {
+      id
+      buyer
+      auctionHouse {
+        address
+        treasuryMint
+        auctionHouseTreasury
+        treasuryWithdrawalDestination
+        feeWithdrawalDestination
+        authority
+        creator
+        auctionHouseFeeAccount
+        bump
+        treasuryBump
+        feePayerBump
+        sellerFeeBasisPoints
+        requiresSignOff
+        canChangeSalePrice
+      }
+      price
+      createdAt
+    }
+    listings {
+      id
+      tradeState
+      seller
+      metadata
+      auctionHouse {
+        address
+        treasuryMint
+        auctionHouseTreasury
+        treasuryWithdrawalDestination
+        feeWithdrawalDestination
+        authority
+        creator
+        auctionHouseFeeAccount
+        bump
+        treasuryBump
+        feePayerBump
+        sellerFeeBasisPoints
+        requiresSignOff
+        canChangeSalePrice
+      }
+      marketplaceProgramAddress
+      price
+      tradeStateBump
+      createdAt
+      canceledAt
+    }
+    offers {
+      id
+      tradeState
+      buyer
+      metadata
+      auctionHouse {
+        address
+        treasuryMint
+        auctionHouseTreasury
+        treasuryWithdrawalDestination
+        feeWithdrawalDestination
+        authority
+        creator
+        auctionHouseFeeAccount
+        bump
+        treasuryBump
+        feePayerBump
+        sellerFeeBasisPoints
+        requiresSignOff
+        canChangeSalePrice
+      }
+      price
+      tradeStateBump
+      tokenAccount
+      createdAt
+      canceledAt
+    }
+  }
+}
+
+fragment MarketplacePreview on Marketplace {
+  subdomain
+  name
+  bannerUrl
+  creators {
+    creatorAddress
+    profile {
+      ...ProfileInfo
+    }
+  }
+  auctionHouses {
+    stats {
+      floor
+    }
+  }
+  stats {
+    nfts
+  }
+}
+
+query home(
+  $userWallet: PublicKey
+  $featuredCollectionsLimit: Int!
+  $featuredProfileLimit: Int!
+  $featuredBuyNowLimit: Int!
+  $feedEventsLimit: Int!
+  $collectionsByVolumeStartDate: DateTimeUtc!
+  $collectionsByVolumeEndDate: DateTimeUtc!
+  $collectionsByMarketCapStartDate: DateTimeUtc!
+  $collectionsByMarketCapEndDate: DateTimeUtc!
+) {
+  feedEvents(
+    wallet: "ALphA7iWKMUi8owfbSKFm2i3BxG6LbasYYXt8sP85Upz"
+    limit: $feedEventsLimit
+    offset: 0
+    excludeTypes: ["follow", "mint"]
+  ) {
+    __typename
+    ... on MintEvent {
+      ...MintEventPreview
+    }
+    ... on FollowEvent {
+      ...FollowEventPreview
+    }
+    ... on PurchaseEvent {
+      ...PurchaseEventPreview
+    }
+    ... on ListingEvent {
+      ...ListingEventPreview
+    }
+    ... on OfferEvent {
+      ...OfferEventPreview
+    }
+  }
+
+  collectionsFeaturedByVolume(
+    startDate: $collectionsByVolumeStartDate
+    endDate: $collectionsByVolumeEndDate
+    limit: $featuredCollectionsLimit
+    offset: 0
+    orderDirection: DESC
+  ) {
+    ...CollectionPreview
+  }
+
+  collectionsFeaturedByMarketCap(
+    startDate: $collectionsByMarketCapStartDate
+    endDate: $collectionsByMarketCapEndDate
+    limit: $featuredCollectionsLimit
+    offset: 0
+    orderDirection: DESC
+  ) {
+    ...CollectionPreview
+  }
+
+  followWallets(wallet: $userWallet, limit: $featuredProfileLimit, offset: 0) {
+    ...ProfilePreview
+  }
+
+  featuredListings(limit: $featuredBuyNowLimit, offset: 0) {
+    ...BuyNowListing
+  }
+
+  buyNowMarketplace: marketplace(subdomain: "haus") {
+    ...MarketplaceAuctionHouse
+  }
+
+  featuredMarketplaces: marketplaces(
+    subdomains: [
+      "junglecats"
+      "womeninnfts"
+      "nft4good"
+      "monkedao"
+      "pixelbands"
+      "event"
+      "skeletoncrew"
+      "thechimpions"
+    ]
+  ) {
+    ...MarketplacePreview
+  }
+}

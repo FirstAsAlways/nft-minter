@@ -1,0 +1,32 @@
+#import "./ProfileInfo.graphql"
+
+query getCollection($address: String!) {
+  nft(address: $address) {
+    address
+    name
+    description
+    mintAddress
+    image
+    creators {
+      position
+      address
+      profile {
+        ...ProfileInfo
+      }
+    }
+  }
+  nftByMintAddress(address: $address) {
+    address
+    name
+    description
+    mintAddress
+    image
+    creators {
+      position
+      address
+      profile {
+        ...ProfileInfo
+      }
+    }
+  }
+}

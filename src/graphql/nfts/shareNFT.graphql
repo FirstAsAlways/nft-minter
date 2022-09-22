@@ -1,0 +1,79 @@
+query shareNFT($subdomain: String!, $address: String!) {
+  marketplace(subdomain: $subdomain) {
+    subdomain
+    name
+    description
+    logoUrl
+    bannerUrl
+    auctionHouses {
+      address
+      stats {
+        floor
+        average
+        volume24hr
+      }
+    }
+  }
+  nft(address: $address) {
+    address
+    name
+    sellerFeeBasisPoints
+    mintAddress
+    description
+    image
+    primarySaleHappened
+    creators {
+      address
+      verified
+    }
+    owner {
+      address
+      associatedTokenAccountAddress
+    }
+    purchases {
+      id
+      buyer
+      price
+    }
+    listings {
+      id
+      price
+    }
+    offers {
+      id
+      buyer
+      price
+    }
+  }
+  nftByMintAddress(address: $address) {
+    address
+    name
+    sellerFeeBasisPoints
+    mintAddress
+    description
+    image
+    primarySaleHappened
+    creators {
+      address
+      verified
+    }
+    owner {
+      address
+      associatedTokenAccountAddress
+    }
+    purchases {
+      id
+      buyer
+      price
+    }
+    listings {
+      id
+      price
+    }
+    offers {
+      id
+      buyer
+      price
+    }
+  }
+}

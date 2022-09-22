@@ -1,0 +1,11 @@
+# import "../fragments/NftCard.graphql"
+# import "../fragments/MarketplaceAuctionHouse.graphql"
+
+query nftCard($subdomain: String!, $address: String!) {
+  nft(address: $address) {
+    ...NftCard
+  }
+  marketplace(subdomain: $subdomain) {
+    ...MarketplaceAuctionHouse
+  }
+}
