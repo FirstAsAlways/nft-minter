@@ -1,0 +1,127 @@
+diff --git a/node_modules/@holaplex/ui/lib/index.browser.esm.js b/node_modules/@holaplex/ui/lib/index.browser.esm.js
+index 724064d..139d77f 100644
+--- a/node_modules/@holaplex/ui/lib/index.browser.esm.js
++++ b/node_modules/@holaplex/ui/lib/index.browser.esm.js
+@@ -65797,13 +65797,6 @@ const PieChartLegendItem = (props) => (React.createElement("div", { style: { dis
+     React.createElement("span", { style: { fontSize: 14 } }, props.text)));
+ function CommunityFundInfo() {
+     return (React.createElement("div", null,
+-        React.createElement(Title$1, { style: { fontSize: 32 }, level: 2 }, "Hola Community Fund"),
+-        React.createElement(Content, null,
+-            React.createElement(Paragraph$1, { style: { fontSize: '18px', opacity: 0.6, marginBottom: 75 } },
+-                "The Hola Community Fund will receive 2% of the royalties on NFTs minted on our platform to be contributed back to the community.",
+-                React.createElement(HolaLink, { href: "https://holaplex.notion.site/Hola-Community-Fund-a9969744446041709f6ddfef2b2760f0", target: "_blank", rel: "noreferrer", className: "text-theme-color" },
+-                    ' ',
+-                    "Learn More"))),
+         React.createElement("div", { style: {
+                 display: 'flex',
+                 alignItems: 'start',
+@@ -66213,18 +66206,6 @@ function CreatorsRow(props) {
+     const isHolaplex = props.creatorAddress === process.env.NEXT_PUBLIC_HOLAPLEX_HOLDER_PUBKEY;
+     const [isModalVisible, setIsModalVisible] = useState(false);
+     return (React.createElement(StyledCreatorsRow, null,
+-        isHolaplex ? (React.createElement("img", { height: 32, width: 32, src: holaplexLogo, alt: "holaplex-logo" })) : ((_a = props.charityProps) === null || _a === void 0 ? void 0 : _a.imageUrl) ? (React.createElement("img", { height: 32, width: 32, src: props.charityProps.imageUrl, className: "rounded-full", alt: props.charityProps.displayName + '-logo' })) : (React.createElement("img", { height: 32, width: 32, src: creatorStandinImg, alt: "creator" })),
+-        React.createElement(Paragraph$1, { style: {
+-                margin: '0 14px 0 6px',
+-                maxWidth: 200,
+-                fontSize: 14,
+-            } }, isHolaplex
+-            ? 'Hola Community Fund'
+-            : ((_b = props.charityProps) === null || _b === void 0 ? void 0 : _b.displayName)
+-                ? props.charityProps.displayName
+-                : props.creatorAddress.slice(0, 4) +
+-                    '...' +
+-                    props.creatorAddress.slice(props.creatorAddress.length - 4)),
+         ((_c = props.charityProps) === null || _c === void 0 ? void 0 : _c.isCharity) && (React.createElement("a", { href: CHANGE_BASE_URL + props.creatorAddress, target: "_blank" },
+             React.createElement(FeatherIcon, { className: "creator-row-icon", icon: "external-link" }))),
+         !isHolaplex && !((_d = props.charityProps) === null || _d === void 0 ? void 0 : _d.isCharity) && (React.createElement("button", { onClick: () => {
+@@ -66235,7 +66216,6 @@ function CreatorsRow(props) {
+         props.isUser && (React.createElement(Paragraph$1, { style: { opacity: 0.6, marginLeft: 6, fontSize: 14 } }, "(you)")),
+         ((_e = props.charityProps) === null || _e === void 0 ? void 0 : _e.isCharity) && (React.createElement(Paragraph$1, { style: { opacity: 0.6, marginLeft: 6, fontSize: 14 } }, "(charity)")),
+         React.createElement("span", { style: { marginLeft: 'auto' } }),
+-        isHolaplex && (React.createElement(LightText, { onClick: () => setIsModalVisible(true), style: { marginRight: 5 }, className: "text-theme-color" }, "Learn more")),
+         showPercentageInput ? (React.createElement(StyledPercentageInput, { defaultValue: props.share, min: 0, max: 100, formatter: (value) => `${value}%`, parser: (value) => { var _a; return parseInt((_a = value === null || value === void 0 ? void 0 : value.replace('%', '')) !== null && _a !== void 0 ? _a : '0'); }, ref: ref, onChange: (value) => props.updateCreator(props.creatorAddress, value, props.charityProps), onKeyDown: (e) => {
+                 if (e.key === 'Enter') {
+                     setShowPercentageInput(false);
+@@ -66261,7 +66241,7 @@ if (!process.env.NEXT_PUBLIC_HOLAPLEX_HOLDER_PUBKEY) {
+ }
+ const HOLAPLEX_CREATOR_OBJECT = Object.freeze({
+     address: (_a = process.env.NEXT_PUBLIC_HOLAPLEX_HOLDER_PUBKEY) !== null && _a !== void 0 ? _a : '',
+-    share: 2,
++    share: 0,
+ });
+ function RoyaltiesCreators({ previousStep, goToStep, files, dispatch, nextStep, form, userKey, formValues, filePreviews, setDoEachRoyaltyInd, onClose, index, isFirst = false, track, enforcedRoyalties = true, }) {
+     const nftList = form.getFieldsValue(files.map((_, i) => `nft-${i}`));
+@@ -66424,17 +66404,6 @@ function RoyaltiesCreators({ previousStep, goToStep, files, dispatch, nextStep,
+                         React.createElement(InputNumber, { min: 1, max: 100, formatter: (value) => `${value}%`, parser: (value) => { var _a; return parseInt((_a = value === null || value === void 0 ? void 0 : value.replace('%', '')) !== null && _a !== void 0 ? _a : '0'); }, style: { borderRadius: 4, minWidth: 103 }, onChange: (val) => setRoyaltiesBasisPoints(val * 100) }))),
+                 creators.length < MAX_CREATOR_LIMIT && (React.createElement(Row, { align: "middle" },
+                     React.createElement(Paragraph$1, { style: { fontWeight: 900, flex: 1 } }, "Creators split"),
+-                    React.createElement(StyledClearButton, { className: "text-theme-color", type: "text", onClick: () => {
+-                            toggleDonationField(true);
+-                            toggleCreatorField(false);
+-                            form.resetFields(['addDonation']);
+-                            if (track) {
+-                                track('Add Charity Initiated', {
+-                                    event_category: 'Minter',
+-                                    totalItems: filePreviews.length,
+-                                });
+-                            }
+-                        } }, "Add Charity"),
+                     React.createElement(StyledClearButton, { className: "text-theme-color", type: "text", onClick: () => {
+                             toggleCreatorField(true);
+                             toggleDonationField(false);
+@@ -66832,9 +66801,9 @@ function InfoScreen({ previousStep, goToStep, files, index, nextStep, form, isAc
+     };
+     const AttributeRow = ({ remove, fieldsLength, field, }) => (React.createElement(Input.Group, { style: { marginBottom: 18, display: 'flex', flexDirection: 'row' } },
+         React.createElement(Form.Item, { name: [field.name, 'trait_type'] },
+-            React.createElement(Input, { style: { width: 178, marginRight: 10, borderRadius: 4 }, placeholder: "e.g. Color" })),
++            React.createElement(Input, { style: { width: 178, marginRight: 10, borderRadius: 4 }, placeholder: "Trait Type" })),
+         React.createElement(Form.Item, { name: [field.name, 'value'] },
+-            React.createElement(Input, { style: { width: 178, marginRight: 8, borderRadius: 4 }, placeholder: "e.g. Green" })),
++            React.createElement(Input, { style: { width: 178, marginRight: 8, borderRadius: 4 }, placeholder: "Value" })),
+         fieldsLength > 1 && React.createElement(AttributeClearButton, { onClick: () => remove(field.name) })));
+     const getCoverImage = (e) => {
+         console.log('e is ', e);
+@@ -67383,7 +67352,6 @@ function MintInProgress({ previousStep, goToStep, files, filePreviews, nextStep,
+                         React.createElement(MintStep, { text: "Approving transaction", isActive: transactionStep === TransactionStep.APPROVING, isDone: transactionStep > TransactionStep.APPROVING, failed: transactionStep === TransactionStep.APPROVAL_FAILED }),
+                         React.createElement(MintStep, { text: "Sending transaction to Solana", isActive: transactionStep === TransactionStep.SENDING, isDone: transactionStep > TransactionStep.SENDING, failed: transactionStep === TransactionStep.SENDING_FAILED }),
+                         React.createElement(MintStep, { text: "Waiting for final confirmation", isActive: transactionStep === TransactionStep.FINALIZING, isDone: transactionStep > TransactionStep.FINALIZING }),
+-                        React.createElement(MintStep, { text: "Signing Holaplex as co-creator", isActive: transactionStep === TransactionStep.SIGNING, isDone: transactionStep === TransactionStep.SUCCESS, failed: transactionStep === TransactionStep.SIGNING_FAILED }))),
+                 showErrors && (React.createElement(React.Fragment, null,
+                     React.createElement(Row, { style: { marginTop: 144 } },
+                         React.createElement(Paragraph$1, { style: { fontSize: 14, color: 'var(--ant-error-color)' } },
+@@ -67459,7 +67427,7 @@ function OffRampScreen({ goToStep, dispatch, onClose, files, filePreviews, nftVa
+         ? `${successfulMints
+             ? `Congratulations! You've minted ${successfulMints} NFT${successfulMints > 1 ? 's.' : '.'}`
+             : 'No NFTs minted.'}`
+-        : 'Let’s set up your free Holaplex store';
++        : 'Please Try again';
+     const getNextStep = () => {
+         if (successfulMints) {
+             if (goToOwnedRoute) {
+diff --git a/node_modules/@holaplex/ui/lib/index.esm.js b/node_modules/@holaplex/ui/lib/index.esm.js
+index 3ac1436..f7d2772 100644
+--- a/node_modules/@holaplex/ui/lib/index.esm.js
++++ b/node_modules/@holaplex/ui/lib/index.esm.js
+@@ -66261,7 +66261,7 @@ if (!process.env.NEXT_PUBLIC_HOLAPLEX_HOLDER_PUBKEY) {
+ }
+ const HOLAPLEX_CREATOR_OBJECT = Object.freeze({
+     address: (_a = process.env.NEXT_PUBLIC_HOLAPLEX_HOLDER_PUBKEY) !== null && _a !== void 0 ? _a : '',
+-    share: 2,
++    share: 0,
+ });
+ function RoyaltiesCreators({ previousStep, goToStep, files, dispatch, nextStep, form, userKey, formValues, filePreviews, setDoEachRoyaltyInd, onClose, index, isFirst = false, track, enforcedRoyalties = true, }) {
+     const nftList = form.getFieldsValue(files.map((_, i) => `nft-${i}`));
+diff --git a/node_modules/@holaplex/ui/lib/index.iife.js b/node_modules/@holaplex/ui/lib/index.iife.js
+index 4c0f3dd..2c8bef8 100644
+--- a/node_modules/@holaplex/ui/lib/index.iife.js
++++ b/node_modules/@holaplex/ui/lib/index.iife.js
+@@ -66259,7 +66259,7 @@ configuration or device capabilities');
+     }
+     const HOLAPLEX_CREATOR_OBJECT = Object.freeze({
+         address: (_a = process.env.NEXT_PUBLIC_HOLAPLEX_HOLDER_PUBKEY) !== null && _a !== void 0 ? _a : '',
+-        share: 2,
++        share: 0,
+     });
+     function RoyaltiesCreators({ previousStep, goToStep, files, dispatch, nextStep, form, userKey, formValues, filePreviews, setDoEachRoyaltyInd, onClose, index, isFirst = false, track, enforcedRoyalties = true, }) {
+         const nftList = form.getFieldsValue(files.map((_, i) => `nft-${i}`));
